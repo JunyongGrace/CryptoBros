@@ -14,9 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import Logo from '../images/logo.jpeg';
+import LoginIcon from '@mui/icons-material/Login';
 
-
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Market', 'Portfolio', 'Home'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -131,7 +131,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar></Avatar>
               </IconButton>
             </Tooltip>
             <Menu
