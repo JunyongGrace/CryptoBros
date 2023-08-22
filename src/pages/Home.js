@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Container, Grid } from '@mui/material';
+import HomePic from '../images/HomePic.jpeg'
 
 const HomePage = () => {
   return (
@@ -18,6 +19,9 @@ const HomePage = () => {
               At CryptoBros, we use smart contracts to act as escrow during the process of trading.
               Smart contracts ensure that assets are held securely until a trade is completed or cancelled.
               </Typography>
+            </Grid>
+            <Grid xs={12} md={6} sx={{paddingY: 10}}>
+              <img src={HomePic} height='80%' width='100%'></img>
             </Grid>
           </Grid>
         </Container>
