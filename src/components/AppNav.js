@@ -17,7 +17,7 @@ import Logo from '../images/logo.jpeg';
 import LoginIcon from '@mui/icons-material/Login';
 
 const pages = ['Market', 'Portfolio', 'Home'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
