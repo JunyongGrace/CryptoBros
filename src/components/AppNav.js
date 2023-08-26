@@ -15,8 +15,10 @@ import AdbIcon from '@mui/icons-material/Adb';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import Logo from '../images/logo.jpeg';
 import LoginIcon from '@mui/icons-material/Login';
+import  { Link }  from 'react-router-dom';
 
-const pages = ['Market', 'Portfolio', 'Home'];
+
+const pages = ['Market', 'Portfolio'];
 const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -39,10 +41,10 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" >
+      <Container maxWidth="xl" >
         <Toolbar disableGutters>
-        <img src={Logo} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} width={50} height={50}></img>
+          <a href="/"><img src={Logo}  sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} width={50} height={50}></img></a>
           <Typography
             variant="h6"
             noWrap
@@ -92,12 +94,15 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">
+                    <Link style={{textDecoration: 'none', color: 'white'}} to={`/${page}`}>
+                      {page}
+                    </Link>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -114,7 +119,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            &nbsp; CRYPTO BROS
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -123,7 +128,9 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link style={{textDecoration: 'none', color: 'white'}} to={`/${page}`}>
+                  {page}
+                </Link>
               </Button>
             ))}
           </Box>

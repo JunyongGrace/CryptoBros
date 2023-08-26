@@ -9,8 +9,8 @@ const HomePage = () => {
     <>
       <Box>
         <Container>
-          <Grid container spacing={2}>
-            <Grid xs={12} md={6} sx={{paddingY: 10, color: '#008ECC'}}>
+          <Grid container spacing={2} sx={{paddingY: 10}}>
+            <Grid item xs={12} md={6} sx={{ color: '#008ECC'}}>
               <Typography variant="h1" component="h1">
               Welcome to CryptoBros! 
               </Typography>
@@ -20,7 +20,7 @@ const HomePage = () => {
               Smart contracts ensure that assets are held securely until a trade is completed or cancelled.
               </Typography>
             </Grid>
-            <Grid xs={12} md={6} sx={{paddingY: 10}}>
+            <Grid item xs={12} md={6}>
               <img src={HomePic} height='80%' width='100%'></img>
             </Grid>
           </Grid>
