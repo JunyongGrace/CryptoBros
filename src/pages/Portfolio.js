@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PortfolioData from './PortfolioData';
-import './Portfolio.css'
+import './Portfolio.css';
+import Transactions from './Transactions';
 function Portfolio() {
 
   const items = PortfolioData.map(item => {
@@ -13,13 +14,12 @@ function Portfolio() {
 
   return (
     <>
-      <h1>'Profile Section'</h1>
+      <Transactions></Transactions>
       <hr></hr>
       <section className="cards-list">
         {items}
       </section>
       <hr></hr>
-      <h1>'Transaction Section'</h1>
     </>
 
   )
