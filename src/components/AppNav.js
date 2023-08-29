@@ -11,12 +11,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import Logo from '../images/logo.jpeg';
-import LoginIcon from '@mui/icons-material/Login';
 import  { Link }  from 'react-router-dom';
-
 
 const pages = ['Market', 'Portfolio'];
 const settings = ['Profile', 'Logout'];
