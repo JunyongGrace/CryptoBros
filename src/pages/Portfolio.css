@@ -1,0 +1,47 @@
+.cards-list{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+}
+
+.card{
+    width: 175px;
+    font-size: 12px;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.card--photo{
+    
+    width: 100%;
+    margin-bottom: 9px;
+    border-radius: 5px;
+
+}
+
+.card--stats{
+    display: flex;
+    align-items: center;
+}
+
+
+.card--price{
+    margin-top: auto;
+}
+
+.card--badge{
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background-color: white;
+    padding: 5px 7px;
+    border-radius: 2px;
+    font-weight: bold;
+    color: #918E9B;
+}

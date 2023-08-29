@@ -15,7 +15,7 @@ const HomePage = () => {
               Welcome to CryptoBros! 
               </Typography>
               <Typography variant="h6" component="h2">
-              We are a Cryptocurrency trading platform that offers a safe and reliable marketplace to buy, sell and trade Cryptocurrency.
+              We are an NFT trading platform that offers a safe and reliable marketplace to buy, sell and trade NFTs.
               At CryptoBros, we use smart contracts to act as escrow during the process of trading.
               Smart contracts ensure that assets are held securely until a trade is completed or cancelled.
               </Typography>
