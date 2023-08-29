@@ -2,6 +2,7 @@ import * as React from 'react';
 import PortfolioData from './PortfolioData';
 import './Portfolio.css';
 import Transactions from './Transactions';
+import SearchBar from './SearchBar';
 function Portfolio() {
 
   const items = PortfolioData.map(item => {
@@ -14,6 +15,7 @@ function Portfolio() {
 
   return (
     <>
+      <SearchBar></SearchBar>
       <Transactions></Transactions>
       <h2>Your Collection</h2>
       <section className="cards-list">

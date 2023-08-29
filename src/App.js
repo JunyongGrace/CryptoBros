@@ -12,16 +12,16 @@ import Trade from './pages/Trade';
 function App() {
   return (
     <div className="App">
-        <ResponsiveAppBar/>
-        <Routes>
-          <Route path='/' element={<HomePage/>}></Route>
-          <Route path='/Market' element={<Market/>}></Route>
-          <Route path='/Portfolio' element={<Portfolio/>}></Route>
-          <Route path='/LoginPage' element={<LoginPage/>}></Route>
-          <Route path='/Profile' element={<Profile/>}></Route>
-          <Route path='/Register' element={<Register/>}></Route>
-          <Route path='/Trade' element={<Trade/>}></Route>
-        </Routes>
+      <ResponsiveAppBar />
+      <Routes>
+        <Route path='/' element={<HomePage />}></Route>
+        <Route path='/Market' element={<Market />}></Route>
+        <Route path='/Portfolio' element={<Portfolio />}></Route>
+        <Route path='/LoginPage' element={<LoginPage />}></Route>
+        <Route path='/Profile' element={<Profile />}></Route>
+        <Route path='/Register' element={<Register />}></Route>
+        <Route path='/Trade' element={<Trade />}></Route>
+      </Routes>
     </div>
   );
 }
