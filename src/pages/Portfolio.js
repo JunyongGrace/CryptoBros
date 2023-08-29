@@ -15,11 +15,10 @@ function Portfolio() {
   return (
     <>
       <Transactions></Transactions>
-      <hr></hr>
+      <h2>Your Collection</h2>
       <section className="cards-list">
         {items}
       </section>
-      <hr></hr>
     </>
 
   )

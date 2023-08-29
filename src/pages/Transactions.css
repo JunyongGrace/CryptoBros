@@ -1,0 +1,14 @@
+.transactions {
+    display: flex;
+    justify-content: center;
+}
+
+.grid{
+    height: 400px;
+    width: 85%;
+}
+
+.box{
+    display: flex;
+    align-items: center;
+}   
