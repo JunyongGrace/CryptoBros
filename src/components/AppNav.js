@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Logo from '../images/logo.jpeg';
-import  { Link }  from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const pages = ['Market', 'Portfolio'];
 const settings = ['Profile', 'Logout'];
@@ -40,7 +40,7 @@ function ResponsiveAppBar() {
     <AppBar position="static" >
       <Container maxWidth="xl" >
         <Toolbar disableGutters>
-          <a href="/"><img src={Logo}  sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} width={50} height={50}></img></a>
+          <a href="/"><img src={Logo} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} width={50} height={50}></img></a>
           <Typography
             variant="h6"
             noWrap
@@ -91,7 +91,7 @@ function ResponsiveAppBar() {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link style={{textDecoration: 'none', color: 'black'}} to={`/${page}`}>
+                    <Link style={{ textDecoration: 'none', color: 'black' }} to={`/${page}`}>
                       {page}
                     </Link>
                   </Typography>
@@ -124,7 +124,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block', marginLeft: '20%' }}
               >
-                <Link style={{textDecoration: 'none', color: 'white'}} to={`/${page}`}>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to={`/${page}`}>
                   {page}
                 </Link>
               </Button>

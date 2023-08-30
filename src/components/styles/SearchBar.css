@@ -1,0 +1,22 @@
+
+/* Container for search bar elements */
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+    margin: 10px;
+
+}
+
+/* Styles for search input */
+.search-bar-input {
+    flex: 1; /* Take up available space */
+    max-width: calc(100% - 150px); /* Adjust as needed */
+    margin-right: 10px;
+}
+
+/* Styles for filter dropdown */
+.search-bar-filter {
+    width: 150px; /* Adjust as needed */
+}

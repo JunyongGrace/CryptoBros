@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import AddressInfo from './AddressInfo';
 import '../styles/Transactions.css'
 
 const columns = [
@@ -56,7 +55,7 @@ const Transactions = () => {
 
             <header>
                 {/* <Navbar currentPage={1} /> */}
-                <AddressInfo />
+
             </header>
             <div class="transactions">
                 <Box class="grid">

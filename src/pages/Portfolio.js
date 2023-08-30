@@ -1,12 +1,14 @@
 import * as React from 'react';
-import PortfolioData from '../components/portfolio/PortfolioData';
+import data from '../data/Data';
 import Transactions from '../components/portfolio/Transactions';
-import SearchBar from '../components/portfolio/SearchBar';
+import SearchInput from '../components/portfolio/SearchList';
 import '../components/styles/Portfolio.css'
+import AddressInfo from '../components/portfolio/AddressInfo';
+
 
 function Portfolio() {
 
-  const items = PortfolioData.map(item => {
+  const items = data.map(item => {
     return <div className="card">
       <img className="card--photo" src={item.img} />
       <p className="card--title">{item.title}</p>
@@ -16,12 +18,14 @@ function Portfolio() {
 
   return (
     <>
-      <SearchBar></SearchBar>
-      <Transactions></Transactions>
-      <h2>Your Collection</h2>
+      <SearchInput></SearchInput>
+      <AddressInfo></AddressInfo>
+      <h2>Your Collections</h2>
       <section className="cards-list">
         {items}
       </section>
+      <h2>Transactions</h2>
+      <Transactions></Transactions>
     </>
 
   )

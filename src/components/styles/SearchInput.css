@@ -1,0 +1,26 @@
+/* NFTList.css */
+.nft-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+    margin-top: 20px;
+
+}
+
+.nft-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    opacity: 0; /* Initially set opacity to 0 for the transition effect */
+    transition: opacity 0.3s ease; /* Add a transition effect for opacity */
+}
+
+.nft-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Apply the transition effect when the .nft-item class receives a 'show' modifier */
+.nft-item.show {
+    opacity: 1;
+}
