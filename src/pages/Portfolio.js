@@ -1,8 +1,9 @@
 import * as React from 'react';
-import PortfolioData from './PortfolioData';
-import './Portfolio.css';
-import Transactions from './Transactions';
-import SearchBar from './SearchBar';
+import PortfolioData from '../components/portfolio/PortfolioData';
+import Transactions from '../components/portfolio/Transactions';
+import SearchBar from '../components/portfolio/SearchBar';
+import '../components/styles/Portfolio.css'
+
 function Portfolio() {
 
   const items = PortfolioData.map(item => {
