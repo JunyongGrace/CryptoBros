@@ -12,8 +12,7 @@ function Market() {
       <div className="card">
         <img className="card--photo" src={item.img} />
         <p className="card--title">{item.title}</p>
-        <p><button >Purchase: ${item.price}</button></p>;
-
+        <p><button >Purchase: ${item.price}</button></p>
       </div>
     </Grid>
   })
