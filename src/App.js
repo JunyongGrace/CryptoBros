@@ -5,7 +5,7 @@ import HomePage from './pages/Home';
 import { Route, Routes } from 'react-router';
 import Market from './pages/Market';
 import Portfolio from './pages/Portfolio';
-import LoginPage from './pages/Login';
+import { LoginPage } from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
 import Trade from './pages/Trade';

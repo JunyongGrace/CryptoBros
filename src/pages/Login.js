@@ -11,6 +11,10 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { useState } from 'react';
+import user from '../data/User';
 
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -21,26 +25,58 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default function LoginPage(){
-  const [showPassword, setShowPassword] = React.useState(false);
+let authenticated = false;
+
+function Authenticate(){
+  return authenticated;
+}
+
+function LoginPage(){
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [login, setLogin] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
+    if (data.get("email") == user.email){
+      if (data.get("password") == user.password){
+        authenticated = true;
+        setLogin(login => !login);
+      }
+    }
+
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  };
+  
+  useEffect(() => {
+    if (login) navigate('/Market', { replace: true});
+    console.log(login);
+  }, [login]);
+
   return (
     <>
         <Grid item sx={{ display: 'flex', justifyContent: 'center', marginTop: '10%'}}>
-          <Paper m='auto' sx={{ width: 400}}>
+          <Paper component='form' onSubmit={handleSubmit} noValidate m='auto' sx={{ width: 400}}>
             <Typography component='h2' variant='h5' sx={{ fontWeight: 'bold', marginTop: 2, marginBottom: 2 }}>Login</Typography>
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-                <TextField id="input-with-sx" label="Email" variant="standard" />
+                <TextField id="input-with-sx email" label="Email" name="email" variant="standard" />
             </FormControl>
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-              <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+              <InputLabel htmlFor="standard-adornment-password password" name='password' id='password'>Password</InputLabel>
               <Input
-                id="standard-adornment-password"
+                id="standard-adornment-password password" 
+                name='password'
                 type={showPassword ? 'text' : 'password'}
                 endAdornment={
                   <>
@@ -58,7 +94,7 @@ export default function LoginPage(){
               />
             </FormControl>
             <br></br>
-            <ColorButton variant="contained" sx={{ marginTop: 2, marginBottom: 2 }}>Login</ColorButton>
+            <ColorButton type='submit' variant="contained" sx={{ marginTop: 2, marginBottom: 2 }}>Login</ColorButton>
           </Paper>
         </Grid>
     </>
@@ -66,3 +102,4 @@ export default function LoginPage(){
 }
 
 
+export {Authenticate, LoginPage};
