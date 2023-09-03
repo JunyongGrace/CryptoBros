@@ -4,6 +4,7 @@ import './Market.css'
 import { Container, Grid } from '@mui/material';
 import SearchBar from './SearchBar';
 import SearchInput from '../components/portfolio/SearchList';
+import Footer from '../components/Footer';
 
 function Market() {
 
@@ -29,6 +30,7 @@ function Market() {
           </Grid>
         </Container>
       </div>
+      <Footer></Footer>  
     </>
 
   )

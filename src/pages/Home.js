@@ -3,13 +3,14 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Container, Grid } from '@mui/material';
 import HomePic from '../images/HomePic.jpeg'
+import Footer from '../components/Footer';
 
 const HomePage = () => {
   return (
     <>
       <Box>
         <Container>
-          <Grid container spacing={2} sx={{paddingY: 10}}>
+          <Grid container spacing={2} sx={{paddingTop: 15}}>
             <Grid item xs={12} md={6} sx={{ color: '#008ECC'}}>
               <Typography variant="h1" component="h1">
               Welcome to CryptoBros! 
@@ -26,8 +27,9 @@ const HomePage = () => {
           </Grid>
         </Container>
       </Box>
+      <Footer></Footer>  
     </>
   )
-}
+} 
 
 export default HomePage;

@@ -4,6 +4,7 @@ import Transactions from '../components/portfolio/Transactions';
 import SearchInput from '../components/portfolio/SearchList';
 import '../components/styles/Portfolio.css'
 import AddressInfo from '../components/portfolio/AddressInfo';
+import Footer from '../components/Footer';
 
 
 function Portfolio() {
@@ -26,6 +27,7 @@ function Portfolio() {
       </section>
       <h2>Transactions</h2>
       <Transactions></Transactions>
+      <Footer></Footer>  
     </>
 
   )
