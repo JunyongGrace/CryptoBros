@@ -39,8 +39,8 @@ const SearchInput = () => {
     const handleSort = (order) => {
         setSortOrder(order);
         const sorted = [...filteredData].sort((a, b) => {
-            const priceA = parseFloat(a.price);
-            const priceB = parseFloat(b.price);
+            const priceA = a.price;
+            const priceB = b.price;
 
             if (order === 'ascending') {
                 return priceA - priceB;
