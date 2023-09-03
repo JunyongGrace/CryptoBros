@@ -1,4 +1,4 @@
-
+// NFTs Data
 export default [
     {
         img: "https://i.seadn.io/s/primary-drops/0xe9b9ac471f8474d8622eab79897d16e0a8aeb3dc/24657793:about:preview_media:18be772e-4339-445f-b7f3-35ad49dede64.gif?auto=format&dpr=1&w=3840",

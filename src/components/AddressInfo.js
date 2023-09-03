@@ -4,6 +4,7 @@ import '../styles/AddressInfo.css';
 import { Avatar } from '@mui/material';
 import avatar from '../images/avatar.svg';
 
+// Balance and Address Information Page
 const AddressInfo = ({ ethBalance }) => {
     return (
         <div className="address-overview">

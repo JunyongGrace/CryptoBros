@@ -12,6 +12,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 
+// Styling for button
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(blue[700]),
   backgroundColor: blue[700],
@@ -20,6 +21,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+// Function for register page
 function Register(){
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -33,12 +35,15 @@ function Register(){
       <Grid item sx={{ display: 'flex', justifyContent: 'center', marginTop: '10%'}}>
           <Paper m='auto' sx={{ width: 400}}>
             <Typography component='h2' variant='h5' sx={{ fontWeight: 'bold', marginTop: 2, marginBottom: 2 }}>Register</Typography>
+            {/* Username */}
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                 <TextField id="input-with-sx" label="Username" variant="standard" />
             </FormControl>
+            {/* Email */}
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                 <TextField id="input-with-sx" label="Email" variant="standard" />
             </FormControl>
+            {/* Password */}
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
               <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
               <Input

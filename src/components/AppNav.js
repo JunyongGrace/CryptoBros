@@ -19,6 +19,7 @@ import { Authenticate } from '../pages/Login';
 const pages = ['Market', 'Portfolio'];
 const settings = ['Profile'];
 
+// Function for Navigation Bar
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -60,6 +61,7 @@ function ResponsiveAppBar() {
                 textDecoration: 'none',
               }}
             >
+          {/* Website Name */}
               &nbsp; CRYPTO BROS
             </Typography>
           </Link>
@@ -93,6 +95,7 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+            {/* Render all pages for mobile view*/}
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
@@ -120,9 +123,11 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
+          {/* Website Name */}
             &nbsp; CRYPTO BROS
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {/* Render all pages */}
             {pages.map((page) => (
               <Button
                 key={page}
@@ -138,6 +143,7 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
+            {/* If logged in, show profile picture */}
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {Authenticate()? <Avatar sx={{ backgroundColor: '#00008b',
                                                     '&:hover': {
@@ -162,11 +168,13 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+            {/* Show all setting options */}
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <NavLink to={`/${setting}`}>{setting}</NavLink>
                 </MenuItem>
               ))}
+              {/* Show login or logout option depending on user situation */}
               <MenuItem>
                 <a href={Authenticate() ? '': 'LoginPage'}>{Authenticate() ? 'Logout': 'Login'}</a>
               </MenuItem>

@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Authenticate } from './Login';
 import user from '../data/User'
 
+// Styling for button
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(blue[700]),
   backgroundColor: blue[700],
@@ -12,6 +13,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+// Function for profile page
 export default function Profile(){
 
   return (
@@ -23,12 +25,14 @@ export default function Profile(){
             <Typography component='h2' variant='h5' sx={{ fontWeight: 'bold', paddingY: 2, marginBottom: 2 }}>Edit Profile</Typography>
             <Grid container spacing={10}>
               <Grid item xs={6} sx={{display: 'flex', justifySelf: 'self-start'}}>
+              {/* Username */}
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                   <Typography component='h4' variant='h6' sx={{ fontWeight: 'bold', marginTop: 2,  display: 'flex', justifySelf: 'self-start'}}>Username</Typography>
                   <TextField id="input-with-sx" label="Username" value={Authenticate() ? `${user.username}`: ''} variant="standard" />
                 </FormControl>
               </Grid>
               <Grid item xs={6} sx={{display: 'flex', justifySelf: 'self-start'}}>
+              {/* Email */}
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                   <Typography component='h4' variant='h6' sx={{ fontWeight: 'bold', marginTop: 2,  display: 'flex', justifySelf: 'self-start'}}>Email</Typography>
                   <TextField id="input-with-sx" label="Email" value={Authenticate() ? `${user.email}`: ''} variant="standard" />

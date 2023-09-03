@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import { blue } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 
+// Styling for button
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(blue[700]),
   backgroundColor: blue[700],
@@ -16,6 +17,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+// Function for trade page
 export default function Trade(){
   return (
     <>
@@ -24,7 +26,9 @@ export default function Trade(){
           <Container>
             <Typography component='h2' variant='h5' sx={{ fontWeight: 'bold', marginTop: 2, marginBottom: 2 }}>Buy</Typography>
             <FormControl fullWidth sx={{ m: 1 }}>
+            {/* Amount */}
               <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+              {/* NFTs */}
               <OutlinedInput
                 id="outlined-adornment-amount"
                 startAdornment={<InputAdornment position="start">NFT(s):</InputAdornment>}

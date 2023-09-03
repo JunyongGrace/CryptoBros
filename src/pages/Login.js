@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import user from '../data/User';
 
-
+// Styling for button
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(blue[700]),
   backgroundColor: blue[700],
@@ -25,16 +25,19 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+
 let authenticated = false;
 
+// For passing information to other components whether the user is logged in
 function Authenticate(){
   return authenticated;
 }
 
+// Function for Login Page
 function LoginPage(){
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-  const [login, setLogin] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // For showing password
+  const [login, setLogin] = useState(false); // For logging in
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -44,24 +47,22 @@ function LoginPage(){
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Get data from form
     const data = new FormData(event.currentTarget);
 
+    // Check if email and password entered are correct
     if (data.get("email") == user.email){
       if (data.get("password") == user.password){
         authenticated = true;
         setLogin(login => !login);
       }
     }
-
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
   };
   
+  // Log the user in if true
   useEffect(() => {
     if (login) navigate('/Market', { replace: true});
-    console.log(login);
   }, [login]);
 
   return (
@@ -69,9 +70,11 @@ function LoginPage(){
         <Grid item sx={{ display: 'flex', justifyContent: 'center', marginTop: '10%'}}>
           <Paper component='form' onSubmit={handleSubmit} noValidate m='auto' sx={{ width: 400}}>
             <Typography component='h2' variant='h5' sx={{ fontWeight: 'bold', marginTop: 2, marginBottom: 2 }}>Login</Typography>
+            {/* Email input */}
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                 <TextField id="input-with-sx email" label="Email" name="email" variant="standard" />
             </FormControl>
+            {/* Password input */}
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
               <InputLabel htmlFor="standard-adornment-password password" name='password' id='password'>Password</InputLabel>
               <Input
@@ -94,6 +97,7 @@ function LoginPage(){
               />
             </FormControl>
             <br></br>
+            {/* Login Button */}
             <ColorButton type='submit' variant="contained" sx={{ marginTop: 2, marginBottom: 2 }}>Login</ColorButton>
           </Paper>
         </Grid>

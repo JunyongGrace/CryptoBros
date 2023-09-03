@@ -6,7 +6,7 @@ import AddressInfo from '../components/AddressInfo';
 import Footer from '../components/Footer';
 
 
-// Portfolio component received 
+// Render out all NTFs to Portfolio Page
 function Portfolio({ nftCollection, ethBalance }) {
   const items = nftCollection.map((item, index) => (
     <div className="card" key={index}>
@@ -20,12 +20,17 @@ function Portfolio({ nftCollection, ethBalance }) {
 
   return (
     <>
+    {/* Search Functionalities for portfolio page */}
       <SearchInput />
+      {/* Show Balance */}
       <AddressInfo ethBalance={ethBalance} />
       <h2>Your Collections</h2>
+      {/* Show NFT Collections */}
       <section className="cards-list">{items}</section>
       <h2>Transactions</h2>
+      {/* Show past transactions */}
       <Transactions />
+      {/* Footer */}
       <Footer></Footer>
     </>
 
