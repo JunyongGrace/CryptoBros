@@ -1,9 +1,9 @@
 import * as React from 'react';
 import data from '../data/Data';
-import Transactions from '../components/portfolio/Transactions';
-import SearchInput from '../components/portfolio/SearchList';
-import '../components/styles/Portfolio.css'
-import AddressInfo from '../components/portfolio/AddressInfo';
+import Transactions from '../components/Transactions';
+import SearchInput from '../components/SearchList';
+import '../styles/Portfolio.css'
+import AddressInfo from '../components/AddressInfo';
 import Footer from '../components/Footer';
 
 

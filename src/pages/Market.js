@@ -3,7 +3,7 @@ import data from '../data/Data';
 import '../styles/Market.css';
 import { Container, Grid } from '@mui/material';
 import SearchBar from './SearchBar';
-import SearchInput from '../components/portfolio/SearchList';
+import SearchInput from '../components/SearchList';
 import Footer from '../components/Footer';
 
 function Market() {
