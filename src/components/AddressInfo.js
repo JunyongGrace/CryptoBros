@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/AddressInfo.css'
 import { Avatar } from '@mui/material';
-import avatar from '../../images/avatar.svg';
+import avatar from '../images/avatar.svg';
 
 const AddressInfo = () => {
     return (

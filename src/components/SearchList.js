@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from '../../pages/SearchBar';
-import data from '../../data/Data';
+import SearchBar from '../pages/SearchBar';
+import data from '../data/Data';
 import '../styles/SearchInput.css';
 
 const SearchInput = () => {

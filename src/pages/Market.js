@@ -1,9 +1,8 @@
 import * as React from 'react';
 import data from '../data/Data';
-import './Market.css'
+import '../styles/Market.css';
 import { Container, Grid } from '@mui/material';
-import SearchBar from './SearchBar';
-import SearchInput from '../components/portfolio/SearchList';
+import SearchInput from '../components/SearchList';
 
 function Market() {
 
