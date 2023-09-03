@@ -1,20 +1,32 @@
 import React from 'react';
-import '../styles/AddressInfo.css'
+import PropTypes from 'prop-types';
+import '../styles/AddressInfo.css';
 import { Avatar } from '@mui/material';
 import avatar from '../images/avatar.svg';
 
-const AddressInfo = () => {
+const AddressInfo = ({ ethBalance }) => {
     return (
-        <div class="address-overview">
-            <Avatar sx={{ backgroundColor: '#BDBDBD', width: '3cm', height: '3cm', marginTop: '7px' }}>
-                <img src={avatar} class="avatar" />
+        <div className="address-overview">
+            <Avatar
+                sx={{ backgroundColor: '#0ba4d4', width: '3cm', height: '3cm', marginTop: '7px' }}
+            >
+                <img src={avatar} alt="User Avatar" className="avatar" />
             </Avatar>
-            <span class="address-details">
-                <p class="address"> 0x5124fcC2B3F99F571AD67D075643C743F38f1C34</p>
-                <p class="balance"><span class="balance-text">Balance</span><span class="eth-balance">6.578947571800593192 ETH</span><span>US$10,868.29</span></p>
+            <span className="address-details">
+                <p className="address">0x5124fcC2B3F99F571AD67D075643C743F38f1C34</p>
+                <p className="balance">
+                    <span className="balance-text">Balance</span>
+                    <span className="eth-balance">{ethBalance} ETH</span>
+                    <span className="balance-text">$AUD</span>
+                    <span className="eth-balance"> {(ethBalance * 2532.52)}</span>
+                </p>
             </span>
         </div>
     );
-}
+};
+
+AddressInfo.propTypes = {
+    ethBalance: PropTypes.number.isRequired,
+};
 
 export default AddressInfo;

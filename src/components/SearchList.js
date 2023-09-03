@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../pages/SearchBar';
 import data from '../data/Data';
-import '../styles/SearchInput.css';
+import '../styles/SearchList.css';
 
-const SearchInput = () => {
+const SearchList = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [noMatches, setNoMatches] = useState(false);
     const [sortOrder, setSortOrder] = useState('');
@@ -73,4 +73,4 @@ const SearchInput = () => {
     );
 };
 
-export default SearchInput;
+export default SearchList;
