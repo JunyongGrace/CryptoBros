@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from '../pages/SearchBar';
 import data from '../data/Data';
 import '../styles/SearchList.css';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
-const SearchList = () => {
+
+const SearchList = ({ onPurchase, ethBalance }) => {
     const [filteredData, setFilteredData] = useState([]);
     const [noMatches, setNoMatches] = useState(false);
     const [sortOrder, setSortOrder] = useState('');
+    const [purchaseAlert, setPurchaseAlert] = useState({ open: false, title: '', content: '', type: 'success' });
 
     useEffect(() => {
         if (filteredData.length > 0) {
@@ -51,6 +54,26 @@ const SearchList = () => {
         setFilteredData(sorted);
     };
 
+    const handlePurchase = (item) => {
+        if (ethBalance >= item.price) {
+            // Deduct the price from the ETH balance
+            const updatedEthBalance = ethBalance - item.price;
+
+            // Trigger the purchase by calling the onPurchase function
+            onPurchase(updatedEthBalance, item);
+
+            // Show a success alert
+            setPurchaseAlert({ open: true, title: 'Success', content: `You purchased ${item.title} for ${item.price} ETH.`, type: 'success' });
+        } else {
+            // Show an error alert
+            setPurchaseAlert({ open: true, title: 'Error', content: 'Insufficient ETH balance to make the purchase.', type: 'error' });
+        }
+    };
+
+    const handleCloseAlert = () => {
+        setPurchaseAlert({ ...purchaseAlert, open: false });
+    };
+
     return (
         <div>
             {/* SearchBar component */}
@@ -65,10 +88,33 @@ const SearchList = () => {
                             <img src={item.img} alt={item.title} />
                             <h3>{item.title}</h3>
                             <p>{item.price}</p>
+                            <p>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => handlePurchase(item)}
+                                >
+                                    Purchase: ${item.price}
+                                </Button>
+                            </p>
                         </div>
                     ))
                 )}
             </div>
+            {/* Display the pop-up alert using Dialog component */}
+            <Dialog open={purchaseAlert.open} onClose={handleCloseAlert}>
+                <DialogTitle style={{ color: purchaseAlert.type === 'success' ? 'green' : 'red' }}>
+                    {purchaseAlert.title}
+                </DialogTitle>
+                <DialogContent style={{ color: purchaseAlert.type === 'success' ? 'green' : 'red' }}>
+                    {purchaseAlert.content}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseAlert} color="primary" autoFocus>
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

@@ -16,9 +16,9 @@ const AddressInfo = ({ ethBalance }) => {
                 <p className="address">0x5124fcC2B3F99F571AD67D075643C743F38f1C34</p>
                 <p className="balance">
                     <span className="balance-text">Balance</span>
-                    <span className="eth-balance">{ethBalance} ETH</span>
+                    <span className="eth-balance">{ethBalance.toFixed(2)} ETH</span>
                     <span className="balance-text">$AUD</span>
-                    <span className="eth-balance"> {(ethBalance * 2532.52)}</span>
+                    <span className="eth-balance"> {(ethBalance * 2532.52).toFixed(3)}</span>
                 </p>
             </span>
         </div>
