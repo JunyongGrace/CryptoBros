@@ -2,7 +2,9 @@ import * as React from 'react';
 import data from '../data/Data';
 import '../styles/Market.css';
 import { Container, Grid } from '@mui/material';
-import SearchInput from '../components/SearchList';
+import SearchBar from './SearchBar';
+import SearchInput from '../components/portfolio/SearchList';
+import Footer from '../components/Footer';
 
 function Market() {
 
@@ -27,6 +29,7 @@ function Market() {
           </Grid>
         </Container>
       </div>
+      <Footer></Footer>
     </>
 
   )
