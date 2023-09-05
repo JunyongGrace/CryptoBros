@@ -36,7 +36,7 @@ function Market({ onPurchase, ethBalance }) {
           <p className="card--title">{item.title}</p>
           <p>
             <Button onClick={handlePurchase} variant="contained" color="primary">
-              Purchase: ${item.price}
+              Purchase: {item.price}ETH
             </Button>
           </p>
         </div>

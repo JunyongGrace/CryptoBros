@@ -87,14 +87,14 @@ const SearchList = ({ onPurchase, ethBalance }) => {
                         <div key={item.img} className="nft-item">
                             <img src={item.img} alt={item.title} />
                             <h3>{item.title}</h3>
-                            <p>{item.price}</p>
+                            <p>{item.price} ETH</p>
                             <p>
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     onClick={() => handlePurchase(item)}
                                 >
-                                    Purchase: ${item.price}
+                                    Purchase: {item.price}ETH
                                 </Button>
                             </p>
                         </div>

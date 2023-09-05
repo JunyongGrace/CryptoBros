@@ -13,7 +13,7 @@ function Portfolio({ nftCollection, ethBalance }) {
       <img className="card--photo" src={item.img} alt={item.title} />
       <p className="card--title">{item.title}</p>
       <p>
-        <span className="bold">Price: ${item.price} ETH</span>
+        <span className="bold">Price: {item.price} ETH</span>
       </p>
     </div>
   ));
