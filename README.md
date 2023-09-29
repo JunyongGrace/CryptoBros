@@ -1,4 +1,4 @@
-EMAIL: X@GMAIL.COM
+EMAIL: X@gmail.com
 PASSWORD: XXXXXX69
 # Getting Started with Create React App
 
