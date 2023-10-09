@@ -57,6 +57,12 @@ function LoginPage(){
         authenticated = true;
         setLogin(login => !login);
       }
+      else{
+        alert('Wrong Password');
+      }
+    }
+    else{
+      alert('Username doesn\'t exist');
     }
   };
   

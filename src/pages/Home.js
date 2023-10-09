@@ -4,9 +4,12 @@ import Typography from '@mui/material/Typography';
 import { Container, Grid } from '@mui/material';
 import HomePic from '../images/HomePic.jpeg'
 import Footer from '../components/Footer';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 //Function for homepage
 const HomePage = () => {
+  
   return (
     <>
       <Box>
