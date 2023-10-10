@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
+import { Link } from 'react-router-dom';
 
 // Styling for button
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -64,7 +65,35 @@ function Register(){
                 }
               />
             </FormControl>
+            <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                <TextField id="input-with-sx" label="Account Address" variant="standard" />
+            </FormControl>
+            <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+              <InputLabel htmlFor="standard-adornment-password">Private Key</InputLabel>
+              <Input
+                id="standard-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                endAdornment={
+                  <>
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  </>
+                }
+              />
+            </FormControl>
             <br></br>
+            <br></br>
+            <Link to={'/LoginPage'}>
+              Already have an account? Login HERE!
+            </Link>
+            <br></br>            
             <ColorButton variant="contained" sx={{ marginTop: 2, marginBottom: 2 }}>Register</ColorButton>
           </Paper>
         </Grid>
