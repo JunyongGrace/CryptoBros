@@ -4,11 +4,11 @@ import mysql.connector
 
 # Define your database configuration
 db_config = {
-    "host": "localhost",
-    "user": "root",
-    "port": "3307",
-    "password": "",
-    "database": "cryptoBro"
+    "host": "ictstu-db1.cc.swin.edu.au",
+    "user": "s103807301",
+    "port": "3306",
+    "password": "Zxcvbnm@1234",
+    "database": "s103807301_db"
 }
 
 # Function to establish a database connection
