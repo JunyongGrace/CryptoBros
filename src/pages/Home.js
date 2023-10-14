@@ -15,7 +15,7 @@ const HomePage = () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/');
       const json = await response.json();
-      setTx_hash(JSON.parse(json).tx);
+      console.log(json.tx);
     } catch (error) {
       console.error(`Download error: ${error.message}`);
     }
