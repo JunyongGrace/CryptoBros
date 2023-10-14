@@ -13,8 +13,7 @@ from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from typing import Optional
 from datetime import datetime
-
-
+from dbConnection import get_database_connection
 
 # URL_DB = ''
 # engine = create_engine(URL_DB)
@@ -90,8 +89,6 @@ tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 @app.get("/transaction/")
 async def funcTest1(request=Request , sender: Optional[str] = None, pk: Optional[str] = None, receiver: Optional[str] = None, amount: Optional[float] = None):
     simple_storage = w3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
-    # print(tx_receipt)
-    print(amount)
     
     # For transaction
     transaction = {
@@ -99,20 +96,15 @@ async def funcTest1(request=Request , sender: Optional[str] = None, pk: Optional
         "value": w3.to_wei(1, 'ether')
     }
     
-    receiver = w3.eth.accounts[1]
+    receiveR = w3.eth.accounts[1]
     
     # Send Ether to the contract's function
-    transaction_hash = simple_storage.functions.sendEther(receiver).transact(transaction=transaction)
+    transaction_hash = simple_storage.functions.sendEther(receiveR).transact(transaction=transaction)
     
     print(transaction_hash)
     
     # Wait for the initial transaction to be mined
     w3.eth.wait_for_transaction_receipt(transaction_hash)
-    # print(tx_receipt)
-    
-    # signed_store_txn = w3.eth.account.sign_transaction(transaction_hash.hex(), private_key=private_key)
-    # send_store_tx = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
-    # tx_receipt = w3.eth.wait_for_transaction_receipt(send_store_tx)
     
     
     transactions_length = simple_storage.functions.getTransactionCount().call()
@@ -121,11 +113,25 @@ async def funcTest1(request=Request , sender: Optional[str] = None, pk: Optional
     
     print(simple_storage.functions.getAllTransactions().call()[0][0])
     
+    connection = get_database_connection()
+    if connection is None:
+            return {"error": "Failed to connect to the database."}
+    cursor = connection.cursor()
+    sqlInsert = "INSERT INTO smartContract (SmartContId,userId,nftId,purchTime,userAddrHash,UserAddrTo) VALUES (%s, %s, %s, %s, %s, %s)"
+    val = (10, 10, 10, "2000-10-10", my_address, receiveR)
+    cursor.execute(sqlInsert, val)
+    connection.commit()
+    
+    
+    
+    cursor.close()
+    connection.close()
+    
     output = {
         "tx": transaction_hash.hex(),
         "sender": my_address,
         "balance": w3.eth.get_balance(my_address)*(10**(-18)),
-        "receiver": receiver,
+        "receiver": receiveR,
         "transaction": simple_storage.functions.getAllTransactions().call(),
         "time": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
         
