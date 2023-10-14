@@ -1,5 +1,6 @@
 EMAIL: X@gmail.com
-PASSWORD: XXXXXX69 
+PASSWORD: XXXXXX69
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -96,3 +97,5 @@ It applies Material-UI styles and CSS for layout and presentation.
 ### Summary (SearchBar, SearchList)
 
 In summary, the SearchBar component is focused on providing search and sorting user interfaces, while the SearchList component manages the overall display of NFT items and handles the logic for filtering and sorting the data based on user input. These components work together to create a cohesive search and display experience for your NFT data.
+
+DB config
