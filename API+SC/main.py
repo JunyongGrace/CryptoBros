@@ -122,11 +122,10 @@ async def getTransaction(request=Request , sender: Optional[str] = None, pk: Opt
     except mysql.connector.Error as err:
         return {"error": f"Error: {err}"}
     
-    # sqlUpdate = f"UPDATE transactions SET userId = {senderId} WHERE nftId = {nftId}"
-    # val = (10, 10, 10, "2000-10-10", my_address, receiveR)
-    # cursor.execute(sqlUpdate, val)
-    # connection.commit()
-    
+    sqlUpdate = f"UPDATE Nft SET userId = %s WHERE nftId = %s"
+    val = (2, 3)
+    cursor.execute(sqlUpdate, val)
+    connection.commit()
     
     cursor.close()
     connection.close()
