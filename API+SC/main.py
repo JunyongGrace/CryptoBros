@@ -4,21 +4,13 @@ import os
 from solcx import compile_standard, install_solc
 import json
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import Response
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 from fastapi import status
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from typing import Optional
 from datetime import datetime
 from dbConnection import get_database_connection
-
-# URL_DB = ''
-# engine = create_engine(URL_DB)
-# sessionLocal = sessionmaker(autocommit = False, autoflush= False, bind=engine)
-# Base = declarative_base()
+import mysql.connector
 
 app = FastAPI()
 app.add_middleware(
@@ -86,8 +78,8 @@ signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_ke
 tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 
-@app.get("/transaction/")
-async def funcTest1(request=Request , sender: Optional[str] = None, pk: Optional[str] = None, receiver: Optional[str] = None, amount: Optional[float] = None):
+@app.get("/transaction/get/")
+async def getTransaction(request=Request , sender: Optional[str] = None, pk: Optional[str] = None, receiver: Optional[str] = None, amount: Optional[float] = None, senderId: Optional[int] = None, nftId: Optional[int] = None):
     simple_storage = w3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
     
     # For transaction
@@ -105,7 +97,7 @@ async def funcTest1(request=Request , sender: Optional[str] = None, pk: Optional
     
     # Wait for the initial transaction to be mined
     w3.eth.wait_for_transaction_receipt(transaction_hash)
-    
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     transactions_length = simple_storage.functions.getTransactionCount().call()
     
@@ -113,15 +105,22 @@ async def funcTest1(request=Request , sender: Optional[str] = None, pk: Optional
     
     print(simple_storage.functions.getAllTransactions().call()[0][0])
     
-    connection = get_database_connection()
-    if connection is None:
-            return {"error": "Failed to connect to the database."}
-    cursor = connection.cursor()
-    sqlInsert = "INSERT INTO smartContract (SmartContId,userId,nftId,purchTime,userAddrHash,UserAddrTo) VALUES (%s, %s, %s, %s, %s, %s)"
-    val = (10, 10, 10, "2000-10-10", my_address, receiveR)
-    cursor.execute(sqlInsert, val)
-    connection.commit()
+    try:
+        connection = get_database_connection()
+        if connection is None:
+                return {"error": "Failed to connect to the database."}
+        cursor = connection.cursor()
+        sqlInsert = f"INSERT INTO Transaction (purchTime, senderAddr, receiverAddr, tranHash) VALUES (%s, %s, %s, %s)"
+        val = (time, my_address, receiveR, transaction_hash.hex())
+        cursor.execute(sqlInsert, val)
+        connection.commit()
+    except mysql.connector.Error as err:
+        return {"error": f"Error: {err}"}
     
+    # sqlUpdate = f"UPDATE transactions SET userId = {senderId} WHERE nftId = {nftId}"
+    # val = (10, 10, 10, "2000-10-10", my_address, receiveR)
+    # cursor.execute(sqlUpdate, val)
+    # connection.commit()
     
     
     cursor.close()
@@ -132,13 +131,33 @@ async def funcTest1(request=Request , sender: Optional[str] = None, pk: Optional
         "sender": my_address,
         "balance": w3.eth.get_balance(my_address)*(10**(-18)),
         "receiver": receiveR,
-        "transaction": simple_storage.functions.getAllTransactions().call(),
-        "time": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-        
-        
-        
+        "amount": simple_storage.functions.getAllTransactions().call()[transactions_length - 1][2]*(10**(-18)),
+        "time": time,
+        "transactions": simple_storage.functions.getAllTransactions().call(),
+        "length": transactions_length
     }
     
     return JSONResponse(content=jsonable_encoder(output), status_code=status.HTTP_201_CREATED)
 
 
+@app.get("/nft/get/")
+def get_Nft():
+    try:
+        # Establish a database connection using the imported function
+        connection = get_database_connection()
+
+        if connection is None:
+            return {"error": "Failed to connect to the database."}
+
+        cursor = connection.cursor()
+        query = "SELECT * FROM Nft"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        Nft = [dict(zip(cursor.column_names, row)) for row in result]
+        cursor.close()
+        connection.close()
+
+        return Nft
+
+    except mysql.connector.Error as err:
+        return {"error": f"Error: {err}"}
