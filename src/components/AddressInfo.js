@@ -1,11 +1,11 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/AddressInfo.css';
 import { Avatar } from '@mui/material';
 import avatar from '../images/avatar.svg';
 
-// Balance and Address Information Page
-const AddressInfo = ({ ethBalance }) => {
+const AddressInfo = ({ ethBalance, userName }) => {
     return (
         <div className="address-overview">
             <Avatar
@@ -14,12 +14,16 @@ const AddressInfo = ({ ethBalance }) => {
                 <img src={avatar} alt="User Avatar" className="avatar" />
             </Avatar>
             <span className="address-details">
-                <p className="address">0x5124fcC2B3F99F571AD67D075643C743F38f1C34</p>
+                <p className="address">Name: {userName}</p>
                 <p className="balance">
                     <span className="balance-text">Balance</span>
-                    <span className="eth-balance">{ethBalance.toFixed(2)} ETH</span>
+                    <span className="eth-balance">
+                        {ethBalance !== null ? ethBalance + ' ETH' : 'Loading...'}
+                    </span>
                     <span className="balance-text">$AUD</span>
-                    <span className="eth-balance"> {(ethBalance * 2532.52).toFixed(3)}</span>
+                    <span className="eth-balance">
+                        {ethBalance !== null ? (ethBalance * 2532.52) : 'Loading...'}
+                    </span>
                 </p>
             </span>
         </div>
@@ -28,6 +32,7 @@ const AddressInfo = ({ ethBalance }) => {
 
 AddressInfo.propTypes = {
     ethBalance: PropTypes.number.isRequired,
+    userName: PropTypes.string.isRequired,
 };
 
 export default AddressInfo;

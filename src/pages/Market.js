@@ -6,6 +6,8 @@ import { Container, Grid, Button, Dialog, DialogTitle, DialogContent, DialogActi
 import SearchList from '../components/SearchList';
 import Footer from '../components/Footer';
 import imageError from '../images/imageError.png'; // Tell webpack this JS file uses this image
+import { useNavigate } from 'react-router';
+
 
 function Market({ onPurchase, ethBalance }) {
   // States to manage NFT data, sorting, and purchase alerts
@@ -14,6 +16,9 @@ function Market({ onPurchase, ethBalance }) {
   const [purchaseAlert, setPurchaseAlert] = useState({ open: false, title: '', content: '', type: 'success' });
   const [sortOrder, setSortOrder] = useState('');
   const [noResults, setNoResults] = useState(false);
+  const navigate = useNavigate(); // Get the navigate function
+
+  console.log(ethBalance);
 
   // Fetch NFT data from the server when the component mounts
   useEffect(() => {
@@ -35,6 +40,8 @@ function Market({ onPurchase, ethBalance }) {
         const updatedEthBalance = ethBalance - item.price;
         onPurchase(updatedEthBalance, item);
         setPurchaseAlert({ open: true, title: 'Success', content: `You purchased ${item.nftName} for ${item.price} ETH.`, type: 'success' });
+        // Navigate to the "Trade" page and pass the selected NFT data
+        navigate('/Trade', { state: { nft: item } });
       } else {
         setPurchaseAlert({ open: true, title: 'Error', content: 'Insufficient ETH balance to make the purchase.', type: 'error' });
       }

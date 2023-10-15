@@ -83,10 +83,12 @@ except mysql.connector.Error as err:
     print(f'{"error": f"Error: {err}"}')
     
 @app.get("/transaction/get/")
-async def getTransaction(request=Request , sender: Optional[str] = None, pk: Optional[str] = None, receiver: Optional[str] = None, amount: Optional[float] = None, senderId: Optional[int] = None, nftId: Optional[int] = None):
+async def make_Transaction(request=Request , sender: Optional[str] = None, pk: Optional[str] = None, receiver: Optional[str] = None, amount: Optional[float] = None, senderId: Optional[int] = None, nftId: Optional[int] = None):
     
     sender = w3.eth.accounts[5]
     receiver = w3.eth.accounts[9]
+    senderId = 2
+    
     try:
         connection = get_database_connection()
         if connection is None:
@@ -137,9 +139,12 @@ async def getTransaction(request=Request , sender: Optional[str] = None, pk: Opt
         "value": w3.to_wei(1, 'ether')
     }
     
+    if (not simple_storage.functions.sendEther(receiver).transact(transaction=transaction)):
+        return JSONResponse(content=jsonable_encoder({"error": "User Address not found"}), status_code=status.HTTP_404_NOT_FOUND)
+    
     # Send Ether to the contract's function
     transaction_hash = simple_storage.functions.sendEther(receiver).transact(transaction=transaction)
-        
+    
     # Wait for the initial transaction to be mined
     w3.eth.wait_for_transaction_receipt(transaction_hash)
     
@@ -147,8 +152,8 @@ async def getTransaction(request=Request , sender: Optional[str] = None, pk: Opt
     transactions_length = simple_storage.functions.getTransactionCount().call()
     balance = w3.eth.get_balance(sender)*(10**(-18))
     
-    sqlInsert = f"INSERT INTO Transaction (purchTime, senderAddr, receiverAddr, tranHash) VALUES (%s, %s, %s, %s)"
-    val = (time, sender, receiver, transaction_hash.hex())
+    sqlInsert = f"INSERT INTO Transaction (purchTime, userId, receiverAddr, tranHash) VALUES (%s, %s, %s, %s)"
+    val = (time, senderId, receiver, transaction_hash.hex())
     cursor.execute(sqlInsert, val)
     connection.commit()
     
@@ -185,7 +190,7 @@ async def getTransaction(request=Request , sender: Optional[str] = None, pk: Opt
     
 
 @app.get("/nft/get/")
-def get_Nft():
+async def get_Nft():
     try:
         # Establish a database connection using the imported function
         connection = get_database_connection()
@@ -205,4 +210,96 @@ def get_Nft():
 
     except mysql.connector.Error as err:
         return {"error": f"Error: {err}"}
+
+@app.get("/portfolio/get")
+async def get_Portfolio(request=Request , id: Optional[int] = None):
+    if (not id): return JSONResponse(content=jsonable_encoder({"error": "UserID not found"}), status_code=status.HTTP_404_NOT_FOUND)
+    try:
+        # Establish a database connection using the imported function
+        connection = get_database_connection()
+
+        if connection is None:
+            return {"error": "Failed to connect to the database."}
+
+        cursor = connection.cursor()
+        query = f"SELECT * FROM Nft WHERE userId = %s"
+        val = (id,)
+        cursor.execute(query, val)
+        result = cursor.fetchall()
+        Nft = [dict(zip(cursor.column_names, row)) for row in result]
+        cursor.close()
+        connection.close()
+
+        return Nft
+    except mysql.connector.Error as err:
+        return {"error": f"Error: {err}"}
+
+@app.get("/transactions/get/")
+async def get_Transaction(request=Request , id: Optional[int] = None):
+    if (not id): return JSONResponse(content=jsonable_encoder({"error": "UserID not found"}), status_code=status.HTTP_404_NOT_FOUND)
+    try:
+        # Establish a database connection using the imported function
+        connection = get_database_connection()
+
+        if connection is None:
+            return {"error": "Failed to connect to the database."}
+
+        cursor = connection.cursor()
+        query = f"SELECT * FROM Transaction WHERE userId = %s"
+        val = (id,)
+        cursor.execute(query, val)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        transactions = [dict(zip(cursor.column_names, row)) for row in result]
+        cursor.close()
+        connection.close()
+
+        return transactions
+    except mysql.connector.Error as err:
+        return {"error": f"Error: {err}"}
     
+@app.get("/user/get/")
+async def get_User(request=Request , id: Optional[int] = None):
+    if (not id): return JSONResponse(content=jsonable_encoder({"error": "UserID not found"}), status_code=status.HTTP_404_NOT_FOUND)
+    try:
+        # Establish a database connection using the imported function
+        connection = get_database_connection()
+
+        if connection is None:
+            return {"error": "Failed to connect to the database."}
+
+        cursor = connection.cursor()
+        query = "SELECT * FROM User WHERE userId = %s"
+        val = (id,)
+        cursor.execute(query, val)
+        result = cursor.fetchall()
+        user = [dict(zip(cursor.column_names, row)) for row in result]
+        cursor.close()
+        connection.close()
+
+        return user
+
+    except mysql.connector.Error as err:
+        return {"error": f"Error: {err}"}
+    
+# @app.get("/User")
+# def get_User():
+#     try:
+#         # Establish a database connection using the imported function
+#         connection = get_database_connection()
+
+#         if connection is None:
+#             return {"error": "Failed to connect to the database."}
+
+#         cursor = connection.cursor()
+#         query = "SELECT * FROM User"
+#         cursor.execute(query)
+#         result = cursor.fetchall()
+#         Nft = [dict(zip(cursor.column_names, row)) for row in result]
+#         cursor.close()
+#         connection.close()
+
+#         return Nft
+
+#     except mysql.connector.Error as err:
+#         return {"error": f"Error: {err}"}

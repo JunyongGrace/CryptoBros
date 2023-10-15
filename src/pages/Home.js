@@ -38,7 +38,6 @@ const HomePage = () => {
               Smart contracts ensure that assets are held securely until a trade is completed or cancelled.
               </Typography>
               <Typography variant="h6" component="h2">
-              {tx_hash}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>

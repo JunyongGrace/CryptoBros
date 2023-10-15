@@ -5,9 +5,7 @@ import '../styles/Portfolio.css';
 import AddressInfo from '../components/AddressInfo';
 import Footer from '../components/Footer';
 
-
-// Render out all NTFs to Portfolio Page
-function Portfolio({ nftCollection, ethBalance }) {
+function Portfolio({ nftCollection, userData }) {
   const items = nftCollection.map((item, index) => (
     <div className="card" key={index}>
       <img className="card--photo" src={item.img} alt={item.title} />
@@ -20,20 +18,14 @@ function Portfolio({ nftCollection, ethBalance }) {
 
   return (
     <>
-    {/* Search Functionalities for portfolio page */}
       <SearchInput />
-      {/* Show Balance */}
-      <AddressInfo ethBalance={ethBalance} />
+      <AddressInfo ethBalance={userData.nftBalance} userName={userData.userName} />
       <h2>Your Collections</h2>
-      {/* Show NFT Collections */}
       <section className="cards-list">{items}</section>
       <h2>Transactions</h2>
-      {/* Show past transactions */}
       <Transactions />
-      {/* Footer */}
-      <Footer></Footer>
+      <Footer />
     </>
-
   );
 }
 
