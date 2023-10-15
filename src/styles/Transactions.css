@@ -1,14 +1,12 @@
 .transactions {
     display: flex;
-    justify-content: center;
-}
-
-.grid{
-    height: 400px;
-    width: 85%;
-}
-
-.box{
-    display: flex;
+    flex-direction: column; /* Stack child elements vertically */
     align-items: center;
-}   
+}
+
+.grid {
+    width: 85%;
+    flex-grow: 1; /* Allow the DataGrid to grow and take up available vertical space */
+}
+
+/* You can adjust the height of the footer or any other elements as needed. */

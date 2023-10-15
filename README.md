@@ -1,5 +1,20 @@
-EMAIL: X@gmail.com
-PASSWORD: XXXXXX69
+
+# Login to our website
+EMAIL: alex@gmail.com
+PASSWORD: 1234
+
+## Login to Database Server
+DB: s103807301 
+PW: Zxcvbnm@
+
+# Deploy Website
+npm start
+
+# Deploy FastAPI
+python -m uvicorn main:app --reload
+
+
+
 
 # Getting Started with Create React App
 

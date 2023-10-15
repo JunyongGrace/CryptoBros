@@ -80,3 +80,15 @@
 .button-1:focus {
   background-color: #F082AC;
 }
+
+
+@media (max-width: 768px) {
+    /* Styles for screens narrower than 768px /
+    .category-button {
+      width: 30%; / Adjust width as needed /
+      font-size: 0.8rem; / Adjust font size as needed /
+    }
+    .nft-image {
+      width: 80%; / Adjust image width as needed */
+    }
+

@@ -5,6 +5,7 @@ import '../styles/SearchList.css';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 // import image if there is issue with photo url link use this local image
 import imageError from '../images/imageError.png'; // Tell webpack this JS file uses this image
+import { useNavigate } from 'react-router';
 
 const SearchList = ({ onPurchase, ethBalance }) => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -13,6 +14,7 @@ const SearchList = ({ onPurchase, ethBalance }) => {
     const [noMatches, setNoMatches] = useState(false);
     const [sortOrder, setSortOrder] = useState('');
     const [purchaseAlert, setPurchaseAlert] = useState({ open: false, nftName: '', content: '', type: 'success' });
+    const navigate = useNavigate(); // Get the navigate function
 
     useEffect(() => {
         // This effect should run whenever searchQuery or filteredData changes
@@ -90,8 +92,7 @@ const SearchList = ({ onPurchase, ethBalance }) => {
             // Trigger the purchase by calling the onPurchase function
             onPurchase(updatedEthBalance, item);
 
-            // Show a success alert
-            setPurchaseAlert({ open: true, nftName: 'Success', content: `You purchased ${item.nftName} for ${item.price} ETH.`, type: 'success' });
+            navigate('/Trade', { state: { nft: item } });
         } else {
             // Show an error alert
             setPurchaseAlert({ open: true, nftName: 'Error', content: 'Insufficient ETH balance to make the purchase.', type: 'error' });

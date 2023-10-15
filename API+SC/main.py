@@ -70,7 +70,7 @@ try:
     connection.commit()
     
     sqlUpdateUser = f"UPDATE User SET nftBalance = %s WHERE userId = %s"
-    val = (0, 2)
+    val = (100, 2)
     cursor.execute(sqlUpdateUser, val)
     connection.commit()
     
@@ -84,10 +84,7 @@ except mysql.connector.Error as err:
     
 @app.get("/transaction/get/")
 async def make_Transaction(request=Request , sender: Optional[str] = None, pk: Optional[str] = None, receiver: Optional[str] = None, amount: Optional[float] = None, senderId: Optional[int] = None, nftId: Optional[int] = None):
-    
-    sender = w3.eth.accounts[5]
     receiver = w3.eth.accounts[9]
-    senderId = 2
     
     try:
         connection = get_database_connection()
@@ -96,7 +93,7 @@ async def make_Transaction(request=Request , sender: Optional[str] = None, pk: O
         cursor = connection.cursor()
         
         sqlUpdateNFT = f"UPDATE User SET userAddr = %s, privateKey = %s, nftBalance = %s WHERE userId = %s"
-        val = (sender, "0x555b56ea3ab677c71c937f733a3411ca60f7cdbd23c968e1e094876c20aa3c33", w3.eth.get_balance(sender)*(10**(-18)), 2)
+        val = (sender, pk, w3.eth.get_balance(sender)*(10**(-18)), 2)
         cursor.execute(sqlUpdateNFT, val)
         connection.commit()
     except mysql.connector.Error as err:
@@ -109,7 +106,7 @@ async def make_Transaction(request=Request , sender: Optional[str] = None, pk: O
         # Find in you account (Get this from Ganache)
         my_address = sender
         # Find in you account (Get this from Ganache)
-        private_key = "0x555b56ea3ab677c71c937f733a3411ca60f7cdbd23c968e1e094876c20aa3c33"
+        private_key = pk
 
         SimpleStorage = w3.eth.contract(address=my_address, abi=abi, bytecode=bytecode)
 
@@ -136,14 +133,13 @@ async def make_Transaction(request=Request , sender: Optional[str] = None, pk: O
     # For transaction
     transaction = {
         'from': sender,
-        "value": w3.to_wei(1, 'ether')
+        "value": w3.to_wei(amount, 'ether')
     }
-    
-    if (not simple_storage.functions.sendEther(receiver).transact(transaction=transaction)):
-        return JSONResponse(content=jsonable_encoder({"error": "User Address not found"}), status_code=status.HTTP_404_NOT_FOUND)
     
     # Send Ether to the contract's function
     transaction_hash = simple_storage.functions.sendEther(receiver).transact(transaction=transaction)
+    if (not transaction_hash):
+        return JSONResponse(content=jsonable_encoder({"error": "User Address not found"}), status_code=status.HTTP_404_NOT_FOUND)
     
     # Wait for the initial transaction to be mined
     w3.eth.wait_for_transaction_receipt(transaction_hash)
@@ -158,7 +154,7 @@ async def make_Transaction(request=Request , sender: Optional[str] = None, pk: O
     connection.commit()
     
     sqlUpdateNFT = f"UPDATE Nft SET userId = %s WHERE nftId = %s"
-    val = (2, 3)
+    val = (senderId, nftId)
     cursor.execute(sqlUpdateNFT, val)
     connection.commit()
     
@@ -175,6 +171,9 @@ async def make_Transaction(request=Request , sender: Optional[str] = None, pk: O
     cursor.close()
     connection.close()
     
+    print(balance)
+    print(time)
+    
     output = {
         "tx": transaction_hash.hex(),
         "sender": sender,
@@ -190,19 +189,26 @@ async def make_Transaction(request=Request , sender: Optional[str] = None, pk: O
     
 
 @app.get("/nft/get/")
-async def get_Nft():
+async def get_Nft(request=Request , id: Optional[int] = None):
     try:
         # Establish a database connection using the imported function
         connection = get_database_connection()
 
         if connection is None:
             return {"error": "Failed to connect to the database."}
-
+        
         cursor = connection.cursor()
-        query = "SELECT * FROM Nft"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        Nft = [dict(zip(cursor.column_names, row)) for row in result]
+        if (not id):
+            query = "SELECT * FROM Nft"
+            cursor.execute(query)
+            result = cursor.fetchall()
+            Nft = [dict(zip(cursor.column_names, row)) for row in result]
+        else:
+            query = "SELECT * FROM Nft WHERE userId = %s"
+            val = (id,)
+            cursor.execute(query, val)
+            result = cursor.fetchall()
+            Nft = [dict(zip(cursor.column_names, row)) for row in result]
         cursor.close()
         connection.close()
 
@@ -248,7 +254,6 @@ async def get_Transaction(request=Request , id: Optional[int] = None):
         query = f"SELECT * FROM Transaction WHERE userId = %s"
         val = (id,)
         cursor.execute(query, val)
-        cursor.execute(query)
         result = cursor.fetchall()
         transactions = [dict(zip(cursor.column_names, row)) for row in result]
         cursor.close()

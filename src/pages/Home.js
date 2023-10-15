@@ -9,18 +9,6 @@ import { useEffect } from 'react';
 
 //Function for homepage
 const HomePage = () => {
-  // const [tx_hash, setTx_hash] = useState('')
-  // useEffect(()=>{},[tx_hash]) //If change check database
-  // async function getAPI(){
-  //   try {
-  //     const response = await fetch('http://127.0.0.1:8000/');
-  //     const json = await response.json();
-  //     console.log(json.tx);
-  //   } catch (error) {
-  //     console.error(`Download error: ${error.message}`);
-  //   }
-  // }
-  
   return (
     <>
       <Box>
@@ -53,3 +41,18 @@ const HomePage = () => {
 } 
 
 export default HomePage;
+
+// Add CSS media query for iPhone 12 or similar screens
+// This is a simplified example
+const styles = {
+  '@media (max-width: 428px)': {
+    // Adjust styles for screens narrower than iPhone 12
+    // For example, reduce font size for headers
+    'h1': {
+      fontSize: '1rem', // Adjust the size as needed
+    },
+    'h2': {
+      fontSize: '0.5rem', // Adjust the size as needed
+    },
+  },
+};

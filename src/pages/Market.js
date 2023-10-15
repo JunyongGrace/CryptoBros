@@ -49,7 +49,7 @@ function Market({ onPurchase, ethBalance }) {
 
     // Render an NFT card
     return (
-      <Grid item xs={5} lg={3} key={index}>
+      <Grid item xs={4} lg={3} key={index}>
         <div className="card">
           {item.urlToImg ? ( // Check if urlToImg is not null
             <img className="card--photo" src={item.urlToImg} alt={item.nftName} />
@@ -115,20 +115,29 @@ function Market({ onPurchase, ethBalance }) {
           </Button>
         </div>
         {/* Category filter buttons */}
-        <div style={{ textAlign: 'left', marginLeft: '100px', marginBottom: '20px', textAlign: 'center' }}>
-          <Button onClick={() => filterNFTsByCategory('All')} style={{ marginLeft: '90px', marginRight: '15px' }} variant="outlined">
+        <div style={{
+          textAlign: 'Center', margin: '0 auto', marginBottom: '20px', display: 'flex', justifyContent: 'center', // Center the content horizontally
+        }}>
+          <Button onClick={() => filterNFTsByCategory('All')} style={{ margin: '0 5px', width: '15%', fontSize: '1rem' }} variant="outlined">
             All
           </Button>
-          <Button onClick={() => filterNFTsByCategory('Music')} style={{ marginRight: '15px' }} variant="outlined">
+          <Button onClick={() => filterNFTsByCategory('Music')} style={{ margin: '0 5px', width: '15%', fontSize: '1rem' }} variant="outlined">
             Music
           </Button>
-          <Button onClick={() => filterNFTsByCategory('Art')} style={{ marginRight: '15px' }} variant="outlined">
+          <Button onClick={() => filterNFTsByCategory('Art')} style={{ margin: '0 5px', width: '15%', fontSize: '1rem' }} variant="outlined">
             Art
           </Button>
-          <Button onClick={() => filterNFTsByCategory('History')} style={{ marginRight: '15px' }} variant="outlined">
+          <Button onClick={() => filterNFTsByCategory('History')} style={{ margin: '0 5px', width: '15%', fontSize: '1rem' }} variant="outlined">
             History
           </Button>
-          <Button onClick={() => filterNFTsByCategory('Entertainment')} variant="outlined">
+          <Button onClick={() => filterNFTsByCategory('Entertainment')} style={{
+            margin: '0 5px',
+            width: '15%',
+            fontSize: '1rem',
+            whiteSpace: 'nowrap',  // Prevent text wrapping
+            overflow: 'hidden',   // Hide overflow text
+            textOverflow: 'ellipsis',
+          }} variant="outlined">
             Entertainment
           </Button>
         </div>
