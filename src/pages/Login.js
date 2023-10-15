@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import user from '../data/User';
-import { Link } from 'react-router-dom';
+
 
 // Styling for button
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -103,11 +103,6 @@ function LoginPage(){
                 }
               />
             </FormControl>
-            <br></br>
-            <br></br>
-            <Link to={'/Register'}>
-              Don't have an account? Register HERE!
-            </Link>
             <br></br>
             {/* Login Button */}
             <ColorButton type='submit' variant="contained" sx={{ marginTop: 2, marginBottom: 2 }}>Login</ColorButton>

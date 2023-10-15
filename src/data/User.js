@@ -2,7 +2,7 @@
 
 export default 
 {
-  email: "X@gmail.com",
-  password: "XXXXXX69",
+  email: "alex@gmail.com",
+  password: "1234",
   username: "Tong",
 }

@@ -54,14 +54,58 @@ abi = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["abi"]
 
 tx_receipt = None
 
+try:
+    connection = get_database_connection()
+    if connection is None:
+        print(f'{"error": "Failed to connect to the database."}')
+    cursor = connection.cursor()
+    
+    sqlResetTran = f"TRUNCATE TABLE Transaction"
+    cursor.execute(sqlResetTran)
+    connection.commit()
+    
+    sqlUpdateNFT = f"UPDATE Nft SET userId = %s"
+    val = (1,)
+    cursor.execute(sqlUpdateNFT, val)
+    connection.commit()
+    
+    sqlUpdateUser = f"UPDATE User SET nftBalance = %s WHERE userId = %s"
+    val = (0, 2)
+    cursor.execute(sqlUpdateUser, val)
+    connection.commit()
+    
+    sqlUpdateUser = f"UPDATE User SET userAddr = %s WHERE userId = %s"
+    val = (w3.eth.accounts[9], 1)
+    cursor.execute(sqlUpdateUser, val)
+    connection.commit()
+    
+except mysql.connector.Error as err:
+    print(f'{"error": f"Error: {err}"}')
+    
 @app.get("/transaction/get/")
 async def getTransaction(request=Request , sender: Optional[str] = None, pk: Optional[str] = None, receiver: Optional[str] = None, amount: Optional[float] = None, senderId: Optional[int] = None, nftId: Optional[int] = None):
+    
+    sender = w3.eth.accounts[5]
+    receiver = w3.eth.accounts[9]
+    try:
+        connection = get_database_connection()
+        if connection is None:
+            return {"error": "Failed to connect to the database."}
+        cursor = connection.cursor()
+        
+        sqlUpdateNFT = f"UPDATE User SET userAddr = %s, privateKey = %s, nftBalance = %s WHERE userId = %s"
+        val = (sender, "0x555b56ea3ab677c71c937f733a3411ca60f7cdbd23c968e1e094876c20aa3c33", w3.eth.get_balance(sender)*(10**(-18)), 2)
+        cursor.execute(sqlUpdateNFT, val)
+        connection.commit()
+    except mysql.connector.Error as err:
+        return {"error": f"Error: {err}"}
+    
     global tx_receipt
     if (not tx_receipt):    
         # Default is 1337 or with the PORT in your Gaanche
         chain_id = 1337
         # Find in you account (Get this from Ganache)
-        my_address = w3.eth.accounts[5]
+        my_address = sender
         # Find in you account (Get this from Ganache)
         private_key = "0x555b56ea3ab677c71c937f733a3411ca60f7cdbd23c968e1e094876c20aa3c33"
 
@@ -89,42 +133,38 @@ async def getTransaction(request=Request , sender: Optional[str] = None, pk: Opt
     
     # For transaction
     transaction = {
-        'from': w3.eth.accounts[5],
+        'from': sender,
         "value": w3.to_wei(1, 'ether')
     }
     
-    receiveR = w3.eth.accounts[1]
-    
     # Send Ether to the contract's function
-    transaction_hash = simple_storage.functions.sendEther(receiveR).transact(transaction=transaction)
-    
-    print(transaction_hash)
-    
+    transaction_hash = simple_storage.functions.sendEther(receiver).transact(transaction=transaction)
+        
     # Wait for the initial transaction to be mined
     w3.eth.wait_for_transaction_receipt(transaction_hash)
+    
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
     transactions_length = simple_storage.functions.getTransactionCount().call()
+    balance = w3.eth.get_balance(sender)*(10**(-18))
     
-    print(transactions_length)
+    sqlInsert = f"INSERT INTO Transaction (purchTime, senderAddr, receiverAddr, tranHash) VALUES (%s, %s, %s, %s)"
+    val = (time, sender, receiver, transaction_hash.hex())
+    cursor.execute(sqlInsert, val)
+    connection.commit()
     
-    print(simple_storage.functions.getAllTransactions().call()[0][0])
-    
-    try:
-        connection = get_database_connection()
-        if connection is None:
-                return {"error": "Failed to connect to the database."}
-        cursor = connection.cursor()
-        sqlInsert = f"INSERT INTO Transaction (purchTime, senderAddr, receiverAddr, tranHash) VALUES (%s, %s, %s, %s)"
-        val = (time, w3.eth.accounts[5], receiveR, transaction_hash.hex())
-        cursor.execute(sqlInsert, val)
-        connection.commit()
-    except mysql.connector.Error as err:
-        return {"error": f"Error: {err}"}
-    
-    sqlUpdate = f"UPDATE Nft SET userId = %s WHERE nftId = %s"
+    sqlUpdateNFT = f"UPDATE Nft SET userId = %s WHERE nftId = %s"
     val = (2, 3)
-    cursor.execute(sqlUpdate, val)
+    cursor.execute(sqlUpdateNFT, val)
+    connection.commit()
+    
+    sqlUpdateUser = f"UPDATE User SET nftBalance = %s WHERE userId = %s"
+    val = (balance, 2)
+    cursor.execute(sqlUpdateUser, val)
+    connection.commit()
+    
+    sqlUpdateUser = f"UPDATE User SET nftBalance = %s WHERE userId = %s"
+    val = (w3.eth.get_balance(receiver)*(10**(-18)), 1)
+    cursor.execute(sqlUpdateUser, val)
     connection.commit()
     
     cursor.close()
@@ -132,9 +172,9 @@ async def getTransaction(request=Request , sender: Optional[str] = None, pk: Opt
     
     output = {
         "tx": transaction_hash.hex(),
-        "sender": w3.eth.accounts[5],
-        "balance": w3.eth.get_balance(w3.eth.accounts[5])*(10**(-18)),
-        "receiver": receiveR,
+        "sender": sender,
+        "balance": balance,
+        "receiver": receiver,
         "amount": simple_storage.functions.getAllTransactions().call()[transactions_length - 1][2]*(10**(-18)),
         "time": time,
         "transactions": simple_storage.functions.getAllTransactions().call(),
@@ -142,7 +182,7 @@ async def getTransaction(request=Request , sender: Optional[str] = None, pk: Opt
     }
     
     return JSONResponse(content=jsonable_encoder(output), status_code=status.HTTP_201_CREATED)
-
+    
 
 @app.get("/nft/get/")
 def get_Nft():
@@ -165,3 +205,4 @@ def get_Nft():
 
     except mysql.connector.Error as err:
         return {"error": f"Error: {err}"}
+    

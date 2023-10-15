@@ -8,7 +8,6 @@ import Footer from '../components/Footer';
 import imageError from '../images/imageError.png'; // Tell webpack this JS file uses this image
 
 function Market({ onPurchase, ethBalance }) {
-
   // States to manage NFT data, sorting, and purchase alerts
   const [nftData, setNftData] = useState([]);
   const [originalNftData, setOriginalNftData] = useState([]); // Store a copy of the original data
@@ -18,7 +17,7 @@ function Market({ onPurchase, ethBalance }) {
 
   // Fetch NFT data from the server when the component mounts
   useEffect(() => {
-    Axios.get('http://127.0.0.1:8000/Nft/')
+    Axios.get('http://127.0.0.1:8000/nft/get/')
       .then((response) => {
         setNftData(response.data);
         setOriginalNftData(response.data); // Set the original data when the component mounts
@@ -30,8 +29,8 @@ function Market({ onPurchase, ethBalance }) {
 
   // Create an array of NFT card components
   const items = nftData.map((item, index) => {
+    // Function to handle the purchase of an NFT
     const handlePurchase = () => {
-      // Function to handle the purchase of an NFT
       if (ethBalance >= item.price) {
         const updatedEthBalance = ethBalance - item.price;
         onPurchase(updatedEthBalance, item);
@@ -43,7 +42,7 @@ function Market({ onPurchase, ethBalance }) {
 
     // Render an NFT card
     return (
-      <Grid item xs={6} sm={4} md={3} key={index}>
+      <Grid item xs={5} lg={3} key={index}>
         <div className="card">
           {item.urlToImg ? ( // Check if urlToImg is not null
             <img className="card--photo" src={item.urlToImg} alt={item.nftName} />
@@ -60,6 +59,7 @@ function Market({ onPurchase, ethBalance }) {
       </Grid>
     );
   });
+
   // Function to handle sorting of NFTs
   const handleSort = (order) => {
     setSortOrder(order);
@@ -95,34 +95,56 @@ function Market({ onPurchase, ethBalance }) {
 
   return (
     <>
-      <Container>
-        <SearchList onPurchase={onPurchase} ethBalance={ethBalance} />
-        <h2>Market</h2>
+      <SearchList onPurchase={onPurchase} ethBalance={ethBalance} />
+      <h2>Market</h2>
+      <div>
+        {/* Sorting buttons */}
+        <div style={{ textAlign: 'left', marginLeft: '20px', marginBottom: '20px' }}>
+          <Button onClick={() => handleSort('ascending')} style={{ marginRight: '10px' }} variant="outlined">
+            Sort by Price (Low to High)
+          </Button>
+          <Button onClick={() => handleSort('descending')} variant="outlined">
+            Sort by Price (High to Low)
+          </Button>
+        </div>
+        {/* Category filter buttons */}
+        <div style={{ textAlign: 'left', marginLeft: '100px', marginBottom: '20px', textAlign: 'center' }}>
+          <Button onClick={() => filterNFTsByCategory('All')} style={{ marginLeft: '90px', marginRight: '15px' }} variant="outlined">
+            All
+          </Button>
+          <Button onClick={() => filterNFTsByCategory('Music')} style={{ marginRight: '15px' }} variant="outlined">
+            Music
+          </Button>
+          <Button onClick={() => filterNFTsByCategory('Art')} style={{ marginRight: '15px' }} variant="outlined">
+            Art
+          </Button>
+          <Button onClick={() => filterNFTsByCategory('History')} style={{ marginRight: '15px' }} variant="outlined">
+            History
+          </Button>
+          <Button onClick={() => filterNFTsByCategory('Entertainment')} variant="outlined">
+            Entertainment
+          </Button>
+        </div>
         <Container>
-          {/* Add sorting buttons */}
-          <div style={{ textAlign: 'left', marginLeft: '20px', marginBottom: '20px' }}>
-            <Button onClick={() => handleSort('ascending')} style={{ marginRight: '10px' }} variant="outlined">Sort by Price (Low to High)</Button>
-            <Button onClick={() => handleSort('descending')} variant="outlined">Sort by Price (High to Low)</Button>
-          </div>
-          <Container>
-            <Grid container spacing={12} direction="row" justifyContent="space-evenly">
-              {items}
-            </Grid>
-          </Container>
+          <Grid container spacing={12}>
+            {noResults ? (
+              <div className="no-results">No NFTs in this category</div>
+            ) : (
+              items
+            )}
+          </Grid>
         </Container>
-        {/* Display the pop-up alert using Dialog component */}
-        <Dialog open={purchaseAlert.open} onClose={() => setPurchaseAlert({ ...purchaseAlert, open: false })
-        }>
-          <DialogTitle style={{ color: purchaseAlert.type === 'success' ? 'green' : 'red' }}>{purchaseAlert.title}</DialogTitle>
-          <DialogContent style={{ color: purchaseAlert.type === 'success' ? 'green' : 'red' }}>{purchaseAlert.content}</DialogContent>
-          <DialogActions>
-            <Button onClick={() => setPurchaseAlert({ ...purchaseAlert, open: false })} color="primary" autoFocus>
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Container>
-      <Footer/>
+      </div>
+      <Dialog open={purchaseAlert.open} onClose={() => setPurchaseAlert({ ...purchaseAlert, open: false })}>
+        <DialogTitle style={{ color: purchaseAlert.type === 'success' ? 'green' : 'red' }}>{purchaseAlert.title}</DialogTitle>
+        <DialogContent style={{ color: purchaseAlert.type === 'success' ? 'green' : 'red' }}>{purchaseAlert.content}</DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPurchaseAlert({ ...purchaseAlert, open: false })} color="primary" autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Footer />
     </>
   );
 }
